@@ -13,18 +13,32 @@ def reddit_connection():
                        user_agent=config.USER_AGENT)
 
 
-def get_random_dbd_meme():
+def get_random_dbd_meme(number=1):
     reddit = reddit_connection()
 
     dbd_memes = reddit.subreddit('deadbydaylight').search('meme OR memes')
 
-    randomMeme = randint(0, 99)
-
+    randomMeme = randint(0, 99 // number)
+    memeTaken = []
+    result = []
     for i, meme in enumerate(dbd_memes):
-        if i == randomMeme and vars(meme).get('post_hint') == 'image':
-            return meme.title, meme.url
+        if i == randomMeme and i not in memeTaken and vars(meme).get('post_hint') == 'image':
 
-        else:
-            randomMeme = randint(i, 99)
+            memeTaken.append(i)
+            result.append((meme.title, meme.url))
 
-    return "Aie, je n'ai rien trouvé, désolé :/"
+            number -= 1
+            if number == 0:
+                break
+
+            randomMeme = randint(i, 99 // number)
+
+        if i > randomMeme:
+            randomMeme = randint(i, 99 // number)
+
+    print("aloouibonjour")
+
+    if len(result) > 0:
+        return result
+
+    return [("Aie je n'ai rien trouvé", ":(")]
