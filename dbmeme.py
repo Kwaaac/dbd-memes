@@ -1,9 +1,7 @@
 import discord
-import praw
-from jsonSentencesHandler import get_random_rule
 
-# Bot's auth token
-TOKEN = "Njk4NjUzMjcwMjYzOTg4MjI1.XpJEOA.A5DiCNrVCCPvh8tFlHmm2f8iQq4"
+import config
+from jsonSentencesHandler import get_random_rule
 
 client = discord.Client()
 
@@ -39,4 +37,4 @@ async def on_ready():
     print('------')
 
 
-client.run(TOKEN)
+client.run(config.TOKEN)
