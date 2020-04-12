@@ -14,11 +14,12 @@ def reddit_connection():
 
 
 def get_random_dbd_meme(number=1):
+    limit = 500
     reddit = reddit_connection()
 
-    dbd_memes = reddit.subreddit('deadbydaylight').search('meme OR memes')
+    dbd_memes = reddit.subreddit('deadbydaylight').search('meme OR memes', limit=500)
 
-    randomMeme = randint(0, 99 // number)
+    randomMeme = randint(0, limit // number)
     memeTaken = []
     result = []
     for i, meme in enumerate(dbd_memes):
@@ -31,12 +32,10 @@ def get_random_dbd_meme(number=1):
             if number == 0:
                 break
 
-            randomMeme = randint(i, 99 // number)
+            randomMeme = randint(i, limit // number)
 
         if i > randomMeme:
-            randomMeme = randint(i, 99 // number)
-
-    print("aloouibonjour")
+            randomMeme = randint(i, limit // number)
 
     if len(result) > 0:
         return result
