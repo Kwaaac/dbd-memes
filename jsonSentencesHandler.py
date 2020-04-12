@@ -13,6 +13,10 @@ def get_random_rule():
     return choice(get_json('book'))
 
 
+def get_random_pigeon():
+    return choice(get_json('pigeon'))
+
+
 def test():
     for _ in range(5):
         print(get_random_rule())

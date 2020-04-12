@@ -1,7 +1,7 @@
 import discord
 
-import config
-from jsonSentencesHandler import get_random_rule
+from jsonSentencesHandler import *
+from reddit import *
 
 client = discord.Client()
 
@@ -14,14 +14,16 @@ async def on_message(message):
 
     channel = message.channel
 
-    if message.content.statswith("!dbdrule"):
+    if message.content.startswith("!dbdrule"):
         await channel.send(get_random_rule())
 
+    elif message.content.startswith("!dbdmeme"):
+        meme = get_random_dbd_meme()
+        await channel.send(meme[0] + "\n" + meme[1])
+
     elif message.content.find("pigeon") != -1 or message.content.find("pigeons") != -1:
-        msg = "Pigeon vous dites ? Encore un tour de " + client.get_user(166557610948952065).mention
+        msg = get_random_pigeon() + client.get_user(166557610948952065).mention
         await channel.send(msg)
-
-
 
 
 # 'capitalize', 'casefold', 'center', 'count', 'encode', 'endswith', 'expandtabs', 'find', 'format', 'format_map',
