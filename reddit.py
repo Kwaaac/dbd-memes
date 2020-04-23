@@ -1,5 +1,3 @@
-from random import randint
-
 import praw
 
 import config
@@ -14,30 +12,40 @@ def reddit_connection():
 
 
 def get_random_dbd_meme(number=1):
-    limit = 500
+    if number == 0:
+        raise Exception("Hey prout")
+
     reddit = reddit_connection()
 
-    dbd_memes = reddit.subreddit('deadbydaylight').search('meme OR memes', limit=500)
+    dbd_memes = reddit.subreddit('deadbydaylight').random_rising(limit=number, params={"search": "meme"})
 
-    randomMeme = randint(0, limit // number)
-    memeTaken = []
     result = []
-    for i, meme in enumerate(dbd_memes):
-        if i == randomMeme and i not in memeTaken and vars(meme).get('post_hint') == 'image':
-
-            memeTaken.append(i)
-            result.append((meme.title, meme.url))
-
-            number -= 1
-            if number == 0:
-                break
-
-            randomMeme = randint(i, limit // number)
-
-        if i > randomMeme:
-            randomMeme = randint(i, limit // number)
+    for meme in dbd_memes:
+        result.append((meme.title, meme.url))
 
     if len(result) > 0:
         return result
 
     return [("Aie je n'ai rien trouvé", ":(")]
+
+
+def get_abrupt_chaos_vid(number=1):
+    if number == 0:
+        raise Exception("Hey prout")
+
+    reddit = reddit_connection()
+
+    abrupt_chaos = reddit.subreddit("AbruptChaos")
+
+    result = []
+    while len(result) != number:
+        sub = abrupt_chaos.random()
+        try:
+            if sub.secure_media is not None:
+                result.append((sub.title, sub.secure_media['reddit_video']['fallback_url']))
+
+            else:
+                result.append((sub.title, sub.crosspost_parent_list[0]['secure_media']['reddit_video']['fallback_url']))
+        except Exception as e:
+            continue
+    return result

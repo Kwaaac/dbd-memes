@@ -63,7 +63,6 @@ async def on_message(message):
             else:
                 memes = get_random_dbd_meme()
 
-            print(memes)
             for meme in memes:
                 print(meme)
                 await channel.send(meme[0] + "\n" + meme[1])
@@ -71,6 +70,18 @@ async def on_message(message):
         elif message.content.find("pigeon") != -1 or message.content.find("pigeons") != -1:
             msg = get_random_pigeon() + client.get_user(166557610948952065).mention
             await channel.send(msg)
+
+        elif message.content.startswith("!ac"):
+            splitedMsg = message.content.split(",")
+
+            if len(splitedMsg) > 1:
+                memes = get_abrupt_chaos_vid(int(splitedMsg[1]))
+            else:
+                memes = get_abrupt_chaos_vid()
+
+            for meme in memes:
+                print(meme)
+                await channel.send(meme[0] + "\n" + meme[1])
 
     except Exception as e:
         print("aie y'a eu une bille: \n", e)
