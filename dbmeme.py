@@ -83,6 +83,18 @@ async def on_message(message):
                 print(meme)
                 await channel.send(meme[0] + "\n" + meme[1])
 
+        elif message.content.startswith("!cursed"):
+            splitedMsg = message.content.split(",")
+
+            if len(splitedMsg) > 1:
+                memes = get_cursed_image(int(splitedMsg[1]))
+            else:
+                memes = get_cursed_image()
+
+            for meme in memes:
+                print(meme)
+                await channel.send(meme[0] + "\n" + meme[1])
+
     except Exception as e:
         print("aie y'a eu une bille: \n", e)
 

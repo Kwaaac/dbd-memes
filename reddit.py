@@ -49,3 +49,21 @@ def get_abrupt_chaos_vid(number=1):
         except Exception as e:
             continue
     return result
+
+
+def get_cursed_image(number=1):
+    if number == 0:
+        raise Exception("Hey prout")
+
+    reddit = reddit_connection()
+
+    abrupt_chaos = reddit.subreddit("cursedimages")
+
+    result = []
+    while len(result) != number:
+        sub = abrupt_chaos.random()
+        try:
+            result.append((sub.title, sub.url))
+        except Exception as e:
+            continue
+    return result
